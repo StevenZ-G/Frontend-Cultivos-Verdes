@@ -1,0 +1,35 @@
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table thead tr {
+  background-color: #007BFF;
+  color: white;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.input-editable {
+  width: 100%;
+  padding: 5px;
+  font-size: 14px;
+}
+
+table input[type="color"] {
+  height: 2rem;
+  padding: 0.25rem;
+}
+

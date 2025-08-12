@@ -1,0 +1,72 @@
+<div class="container mt-4">
+
+  <!-- Título General -->
+  <h2 class="text-center mb-4">Rendimientos y Costos</h2>
+
+  <!-- Tabla de Rendimientos por Ramos -->
+  <div class="card mb-5">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Rendimientos por Ramos</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Rendimiento</th>
+              <th>Costo R</th>
+              <th>Costo T</th>
+              <th>Costo L</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ramo of rendimientos_ramos; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ ramo.nombre }}</td>
+              <td>{{ ramo.rendimiento }}</td>
+              <td>{{ ramo.costoR | number: '1.2-2' }}</td>
+              <td>{{ ramo.costoT | number: '1.2-2' }}</td>
+              <td>{{ ramo.costoL | number: '1.2-2' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de Rendimientos por Cajas -->
+  <div class="card">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">Rendimientos por Cajas</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Rendimiento</th>
+              <th>Costo R</th>
+              <th>Costo T</th>
+              <th>Costo L</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let caja of rendimientos_cajas; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ caja.nombre }}</td>
+              <td>{{ caja.rendimiento }}</td>
+              <td>{{ caja.costoR | number: '1.2-2' }}</td>
+              <td>{{ caja.costoT | number: '1.2-2' }}</td>
+              <td>{{ caja.costoL | number: '1.2-2' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
