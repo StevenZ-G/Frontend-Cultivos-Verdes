@@ -1,1 +1,25 @@
-<h1>Complementos</h1>
+<div class="container mt-4">
+    <h4>Complementos</h4>
+    <table class="table table-bordered table-hover table-sm mt-3">
+        <thead class="table-dark">
+            <tr>
+            <th>#</th>
+            <th>Complemento</th>
+            <th>Costo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let complemento of complementos; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ complemento.nombre_complemento }}</td>
+                <td>
+                    <input type="number"
+                        [value]="complemento.costo_complemento"
+                        step="0.01"
+                        class="form-control form-control-sm"
+                    />
+                </td>   
+            </tr>
+        </tbody>
+    </table>
+</div>

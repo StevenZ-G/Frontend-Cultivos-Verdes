@@ -1,1 +1,23 @@
-<h1>Flor</h1>
+<div class="container mt-4">
+    <h4>Flores</h4>
+    <table class="table table-bordered table-hover table-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Producto</th>
+                <th>Costo R</th>
+                <th>Costo A</th>
+                <th>Costo L</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let flor of flores; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{flor.nombre}}</td>
+                <td>{{ flor.costoR | number: '1.2-2' }}</td>
+                <td>{{ flor.costoA | number: '1.2-2' }}</td>
+                <td>{{ flor.costoL | number: '1.2-2' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

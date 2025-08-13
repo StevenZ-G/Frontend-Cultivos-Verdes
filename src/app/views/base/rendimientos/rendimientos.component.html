@@ -1,1 +1,25 @@
-<h1>Rendimientos</h1>
+<div class="container mt-4">
+    <h4>Rendimientos</h4>
+    <table class="table table-bordered table-hover table-sm">
+        <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Rendimiento</th>
+              <th>Costo R</th>
+              <th>Costo T</th>
+              <th>Costo L</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let rendimiento of rendimientos; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ rendimiento.nombre_rendimiento }}</td>
+                <td>{{ rendimiento.rendimiento }}</td>
+                <td>{{ rendimiento.costoR | number: '1.2-2' }}</td>
+                <td>{{ rendimiento.costoT | number: '1.2-2' }}</td>
+                <td>{{ rendimiento.costoL | number: '1.2-2' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
