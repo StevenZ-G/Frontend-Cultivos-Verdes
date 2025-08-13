@@ -3,7 +3,7 @@ export interface CajaORM {
     nombre?: string;
     costo?: number;
     tallos?: number;
-    volumen?: number;
+    volumen?: string;
     peso?: number;
     descripcion?: string;
 }

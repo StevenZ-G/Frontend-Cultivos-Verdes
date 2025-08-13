@@ -13,7 +13,36 @@ import { CajaService } from '../../../@shared/services/general/caja/caja.service
   imports: [FormsModule, CommonModule], // Si CajaService es providedIn: root no necesitas importarlo aquí
 })
 export class CajasComponent implements OnInit {
+
+  cajas: CajaORM[] = [];
+  cajaSeleccionada?: CajaORM[];
+
+  nuevaCaja: CajaORM = {
+    id_caja: '',
+    nombre: '',
+    costo: 0,
+    tallos: 0,
+    volumen: '',
+    peso: 0,
+    descripcion: '',
+  }
+
+  constructor(private cajaService: CajaService) {}
+
   ngOnInit(): void {
+    this.cargarCajas();
+  }
+
+  cargarCajas(): void {
+    this.cajaService.getAllCajas().subscribe({
+      next: (data) => {
+        this.cajas = data.data; 
+        console.log('Cajas', this.cajas);
+      },
+      error: (err) => {
+        console.error('Error cargando cajas:', err);
+      }
+    });
   }
 
 }
