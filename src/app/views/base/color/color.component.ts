@@ -33,7 +33,6 @@ export class ColorComponent implements OnInit {
     this.colorService.getAllColors().subscribe({
       next: (data) => {
         this.colores = data.data; 
-        console.log('Colores', this.colores);
       },
       error: (err) => {
         console.error('Error cargando color:', err);

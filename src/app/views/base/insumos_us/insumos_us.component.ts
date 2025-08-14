@@ -1,6 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { InsumoORM } from '../../../@shared/models/interfaces';
+import { InsumoService } from '../../../@shared/services/general/insumo/insumo.service';
+import { TipoInsumoORM } from '../../../@shared/models/interfaces';
+import { TipoInsumoService} from '../../../@shared/services/general/tipoInsumo/tipoInsumo.service'
+
 
 @Component({
   selector: 'app-insumos_us',
@@ -9,65 +14,53 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule]
 })
-export class InsumosUSComponent {
-  insumos_us: { nombre: string; costo: number }[] = [];
+export class InsumosUSComponent implements OnInit{
+  
+  insumos: InsumoORM[] = [];
+  insumosUS: InsumoORM[] = [];
+  insumoSeleccionado?: InsumoORM[];
+  insumoSeleccionadoUS?: InsumoORM[];
+  tipoInsumos: TipoInsumoORM[] = [];
 
-  nuevoInsumo = {
+  nuevoInsumo: InsumoORM = {
+    id_insumo: '',
+    id_tipo_insumo: 0,
     nombre: '',
-    costo: null as number | null
-  };
+    costo: '',
+  }
 
-  constructor() {
+  constructor(
+    private isumoService: InsumoService,
+    private tipoInsumoService: TipoInsumoService
+  ) {}
+
+  ngOnInit(): void {
     this.cargarInsumos();
+    this.cargarTipoInsumos();
   }
 
-  cargarInsumos() {
-    const data = localStorage.getItem('insumos_us');
-    if (data) {
-      this.insumos_us = JSON.parse(data);
-    } else {
-      // insumos "quemados"
-      this.insumos_us = [
-        { nombre: 'ARRIVE ALIVE', costo: 0.72 },
-        { nombre: 'FOOD', costo: 0.06 },
-        { nombre: 'LAMINA PET', costo: 0.11 },
-        { nombre: 'CAPUCHON', costo: 0.29 },
-        { nombre: 'UPC', costo: 0.01 },
-        { nombre: 'TRANSPORCARE', costo: 0.03 },
-        { nombre: 'ETHYLBLOC', costo: 0.03 },
-      ];
-      this.guardarInsumos();
-    }
+  cargarInsumos(): void {
+    this.isumoService.getAllInsumo().subscribe({
+      next: (data) => {
+        console.log('Datos', data);
+        this.insumos = data.data.filter(i => i.id_tipo_insumo === 1);
+        console.log('insumos', this.insumos);
+        this.insumosUS = data.data.filter(i => i.id_tipo_insumo === 2);
+      },
+      error: (err) => {
+        console.error('Error cargando Insumos:', err);
+      }
+    });
   }
 
-  guardarInsumos() {
-    localStorage.setItem('insumos_us', JSON.stringify(this.insumos_us));
-  }
-
-  eliminarInsumo(index: number): void {
-    const confirmar = confirm('¿Estás seguro de eliminar este insumo?');
-    if (confirmar) {
-      this.insumos_us.splice(index, 1);
-      this.guardarInsumos();
-    }
-  }
-
-  agregarInsumo() {
-    if (this.nuevoInsumo.nombre && this.nuevoInsumo.costo !== null) {
-      this.insumos_us.push({
-        nombre: this.nuevoInsumo.nombre,
-        costo: this.nuevoInsumo.costo ?? 0  // convierte null en 0
-      });
-      this.guardarInsumos();
-      this.nuevoInsumo = { nombre: '', costo: null };
-    }
-  }
-
-  actualizarCosto(index: number, nuevoCosto: string) {
-    const costo = parseFloat(nuevoCosto);
-    if (!isNaN(costo)) {
-      this.insumos_us[index].costo = costo;
-      this.guardarInsumos();
-    }
+  cargarTipoInsumos(): void {
+    this.tipoInsumoService.getAllTipoInsumo().subscribe({
+      next: (data) => {
+        this.tipoInsumos = data.data;
+      },
+      error: (err) => {
+        console.error('Error cargando Tipo Insumos:', err);
+      }
+    });
   }
 }

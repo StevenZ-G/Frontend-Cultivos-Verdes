@@ -32,8 +32,7 @@ export class VariedadesFlorComponent implements OnInit{
   cargarFlores(): void {
     this.florService.getAllFlor().subscribe({
       next: (data) => {
-        this.flores = data.data; 
-        console.log('Flores', this.flores);
+        this.flores = data.data;
       },
       error: (err) => {
         console.error('Error cargando flores:', err);

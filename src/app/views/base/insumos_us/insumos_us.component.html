@@ -1,1 +1,25 @@
-<h1>Inusmos Urban Stems</h1>
+<div class="container mt-4">
+    <h4>Insumos Urban Stems</h4>
+    <table class="table table-bordered table-hover table-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Insumo</th>
+                <th>Costo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let insumo of insumosUS; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ insumo.nombre }}</td>
+                <td>
+                    <input type="number"
+                        [value]="insumo.costo"
+                        step="0.01"
+                        class="form-control form-control-sm"
+                    />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

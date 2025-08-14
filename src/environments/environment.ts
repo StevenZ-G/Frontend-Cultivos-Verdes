@@ -7,7 +7,7 @@ export const environment = {
 
 
 
-  tituloSistema: 'SISTEMA INTEGRADO OPERACIONAL (SI-Op)',
+  tituloSistema: 'Cotizador Cultivos Verdes',
 
   tiempoEspera: 200,
 };

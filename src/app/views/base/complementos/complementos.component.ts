@@ -33,7 +33,6 @@ export class ComplementosComponent implements OnInit {
     this.complementoService.getAllComplementos().subscribe({
       next: (data) => {
         this.complementos = data.data; 
-        console.log('Complementos', this.complementos);
       },
       error: (err) => {
         console.error('Error cargando complementos:', err);

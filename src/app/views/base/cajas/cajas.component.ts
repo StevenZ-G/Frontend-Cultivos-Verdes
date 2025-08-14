@@ -37,7 +37,6 @@ export class CajasComponent implements OnInit {
     this.cajaService.getAllCajas().subscribe({
       next: (data) => {
         this.cajas = data.data; 
-        console.log('Cajas', this.cajas);
       },
       error: (err) => {
         console.error('Error cargando cajas:', err);

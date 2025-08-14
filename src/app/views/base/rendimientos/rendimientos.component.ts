@@ -35,7 +35,6 @@ export class RendimientosComponent implements OnInit {
     this.rendimientoService.getAllRendimiento().subscribe({
       next: (data) => {
         this.rendimientos = data.data; 
-        console.log('Rendimientos', this.rendimientos);
       },
       error: (err) => {
         console.error('Error cargando Rendimientos:', err);
