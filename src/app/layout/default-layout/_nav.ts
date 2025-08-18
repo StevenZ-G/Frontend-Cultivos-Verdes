@@ -15,15 +15,20 @@ export const navItems: INavData[] = [
     name: 'Funcionalidades'
   },
   {
+    name: 'Grupo de Cotizacion',
+    iconComponent: { name: 'cil-pencil' },
+    url: '/charts'
+  },
+  {
     name: 'Crear Cotizacion',
-    url: '/theme/colors',
-    iconComponent: { name: 'cil-pencil' }
+    url: '/cotizador/cotizacion',
+    iconComponent: { name: 'cil-notes' }
   },
   {
     name: 'Historial Cotizaciones',
-    url: '/theme/typography',
+    url: '/cotizador/historialCotizacion',
     linkProps: { fragment: 'headings' },
-    iconComponent: { name: 'cil-notes' }
+    iconComponent: { name: 'cil-spreadsheet' }
   },
   {
     name: 'Components',

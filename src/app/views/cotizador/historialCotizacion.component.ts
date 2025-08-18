@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { CardBodyComponent, CardComponent, CardHeaderComponent } from '@coreui/angular';
 
 @Component({
-  templateUrl: 'typography.component.html',
+  templateUrl: 'historialCotizacion.component.html',
   imports: [
     CardComponent,
     CardHeaderComponent,
-    CardBodyComponent
   ]
 })
-export class TypographyComponent {}
+export class HistorialCotizacionComponent {}

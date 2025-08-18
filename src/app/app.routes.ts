@@ -18,8 +18,8 @@ export const routes: Routes = [
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       },
       {
-        path: 'theme',
-        loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
+        path: 'cotizador',
+        loadChildren: () => import('./views/cotizador/routes').then((m) => m.routes)
       },
       {
         path: 'base',
