@@ -17,7 +17,7 @@ export const navItems: INavData[] = [
   {
     name: 'Grupo de Cotizacion',
     iconComponent: { name: 'cil-pencil' },
-    url: '/charts'
+    url: '/grupoCotizacion'
   },
   {
     name: 'Crear Cotizacion',
