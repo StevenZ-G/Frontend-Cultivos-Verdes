@@ -11,5 +11,5 @@ export const environment = {
 
 
   tituloSistema: 'Cotizador Cultivos Verdes',
-
+  tiempoEspera: 200,
 };

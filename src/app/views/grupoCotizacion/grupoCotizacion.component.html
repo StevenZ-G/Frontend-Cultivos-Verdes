@@ -1,3 +1,123 @@
+<c-card class="mb-4">
+  <div class="box--spaced" *ngIf="banderaMostrarDetalles===false else detalle">
+    <form [formGroup]="formulario" novalidate>
+      <c-card class="col-sm-6" style="background-color: rgba(rgb(187, 196, 195, 0.85));">
+        <c-card-header>
+            Grupo de Cotización
+        </c-card-header>
+        <c-card-body>
+            <div class="form-field">
+                <label class="form-label">Código Grupo Cotización</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <div class="icon-preview">
+                            <i class="bi bi-key"></i>
+                        </div>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Codigo Grupo Cotizacion" 
+                    readonly formControlName="id_grupo_cotizacion" name="id_grupo_cotizacion" />
+                </div>
+                <div class="error-message" *ngIf="formulario.get('id_grupo_cotizacion')?.invalid">
+                    <i class="bi bi-exclamation-circle error-icon"></i>
+                    Campo requerido
+                </div> 
+            </div>
 
-<h1>Aqui va a ir la creacion del grupo de cotizacion :)</h1>
-      
+            <div class="form-field">
+                <label class="form-label">Nombre del Grupo</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <div class="icon-preview">
+                            <i class="bi bi-fonts"></i>
+                        </div>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Ingrese el nombre del grupo">
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label class="form-label">Mnemonico del Grupo</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <div class="icon-preview">
+                            <i class="bi bi-fonts"></i>
+                        </div>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Ingrese el Mnemonico del grupo">
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label class="form-label">Descripción</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <div class="icon-preview">
+                            <i class="bi bi-text-paragraph"></i>
+                        </div>
+                    </span>
+                    <textarea class="form-control" placeholder="Agregue una descripción" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label class="form-label">Seleccione el estado</label>
+                <select class="form-select" formControlName="estado" name="estado">
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="A">
+                        <div class="custom-select-option">
+                            <span class="color-indicator" style="background-color: #2eb85c;"></span>
+                            <span>Activo</span>
+                        </div>
+                    </option>
+                    <option value="I">
+                        <div class="custom-select-option">
+                            <span class="color-indicator" style="background-color: #e55353;"></span>
+                            <span>Inactivo</span>
+                        </div>
+                    </option>
+                </select>
+            </div>
+
+            <div> <br> </div>
+            <div class="btn-container">
+                <button type="button" class="btn btn-secondary" (click)="nuevo()" matButton="elevated">Nuevo</button>
+                <button type="button" class="btn btn-primary" *ngIf="!banderaEditar" (click)="guardar(formulario.value, formulario.valid)" matButton="elevated">Guardar</button>
+                <button type="button" class="btn btn-outline-danger" *ngIf="banderaEditar" (click)="guardar(formulario.value, formulario.valid)" matButton="elevated">Actualizar</button>
+                <button type="button" class="btn btn-success" matButton="elevated" *ngIf="grupoCotizacion.length>0" (click)="verDetalle()" >Ver Detalles</button>
+            </div>
+        </c-card-body>
+      </c-card>
+    </form>
+  </div>
+  <ng-template #detalle>
+    <div class="row">
+        <div class="col-sm">
+            <c-card>
+                <c-card-header>
+                    Listado de Grupos de Cotización
+                </c-card-header>
+            </c-card>
+            <c-card-body>
+                <div>
+                    <div class="row">
+                        <div style="width: 5px;"></div>
+                        <button type="button" class="btn btn-success btn-float"
+                            style="border-radius: 100%; display: flex; height: 45px; width: 45px; align-items: center; justify-content: center;"
+                            (click)="back()" matTooltip="Regresar">
+                            <span class="material-symbols-outlined">
+                                reset_settings
+                            </span>
+                        </button>
+                    </div>
+                    <br>
+                    <div class="card shadow">
+                        
+                    </div>
+                </div>
+            </c-card-body>
+        </div>
+    </div>
+  </ng-template>
+  
+  
+</c-card>
