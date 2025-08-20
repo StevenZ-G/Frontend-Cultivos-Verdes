@@ -31,7 +31,8 @@
                             <i class="bi bi-fonts"></i>
                         </div>
                     </span>
-                    <input type="text" class="form-control" placeholder="Ingrese el nombre del grupo">
+                    <input type="text" class="form-control" placeholder="Ingrese el nombre del grupo"
+                    formControlName="nombre_grupo" name="nombre_grupo" />
                 </div>
             </div>
 
@@ -43,19 +44,8 @@
                             <i class="bi bi-fonts"></i>
                         </div>
                     </span>
-                    <input type="text" class="form-control" placeholder="Ingrese el Mnemonico del grupo">
-                </div>
-            </div>
-
-            <div class="form-field">
-                <label class="form-label">Descripción</label>
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <div class="icon-preview">
-                            <i class="bi bi-text-paragraph"></i>
-                        </div>
-                    </span>
-                    <textarea class="form-control" placeholder="Agregue una descripción" rows="3"></textarea>
+                    <input type="text" class="form-control" placeholder="Ingrese el Mnemonico del grupo"
+                    formControlName="mnemonico" name="mnemonico" />
                 </div>
             </div>
 
@@ -92,32 +82,94 @@
   <ng-template #detalle>
     <div class="row">
         <div class="col-sm">
-            <c-card>
-                <c-card-header>
-                    Listado de Grupos de Cotización
-                </c-card-header>
-            </c-card>
+        <c-card>
+            <c-card-header>
+            <strong>Listado de Grupos de Cotización</strong>
+            </c-card-header>
             <c-card-body>
-                <div>
-                    <div class="row">
-                        <div style="width: 5px;"></div>
-                        <button type="button" class="btn btn-success btn-float"
-                            style="border-radius: 100%; display: flex; height: 45px; width: 45px; align-items: center; justify-content: center;"
-                            (click)="back()" matTooltip="Regresar">
-                            <span class="material-symbols-outlined">
-                                reset_settings
-                            </span>
+            <!-- Botón regresar -->
+            <div class="row mb-3">
+                <div style="width: 5px;"></div>
+                <button
+                type="button"
+                class="btn btn-success btn-float"
+                style="border-radius: 100%; display: flex; height: 45px; width: 45px; align-items: center; justify-content: center;"
+                (click)="back()"
+                title="Regresar"
+                >
+                <span class="material-symbols-outlined">
+                    <-
+                </span>
+                </button>
+            </div>
+
+            <!-- Tabla -->
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                <thead>
+                    <tr>
+                    <th (click)="toggleSort('id_grupo_cotizacion')">
+                        Código Grupo
+                        <span *ngIf="getSortIndicator('id_grupo_cotizacion')==='asc'">▲</span>
+                        <span *ngIf="getSortIndicator('id_grupo_cotizacion')==='desc'">▼</span>
+                    </th>
+                    <th (click)="toggleSort('nombre_grupo')">
+                        Nombre
+                        <span *ngIf="getSortIndicator('nombre_grupo')==='asc'">▲</span>
+                        <span *ngIf="getSortIndicator('nombre_grupo')==='desc'">▼</span>
+                    </th>
+                    <th (click)="toggleSort('mnemonico')">
+                        Mnemonico
+                        <span *ngIf="getSortIndicator('mnemonico')==='asc'">▲</span>
+                        <span *ngIf="getSortIndicator('mnemonico')==='desc'">▼</span>
+                    </th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let grupo of grupoCotizacionView; trackBy: trackById">
+                    <td>{{ grupo.id_grupo_cotizacion }}</td>
+                    <td>{{ grupo.nombre_grupo }}</td>
+                    <td>{{ grupo.mnemonico }}</td>
+                    <td>
+                        <span class="badge" [ngClass]="grupo.estado === 'A' ? 'bg-success' : 'bg-danger'">
+                        {{ grupo.estado === 'A' ? 'Activo' : 'Inactivo' }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-2" (click)="seleccionarGrupo(grupo)">
+                        <i class="bi bi-pencil">Editar</i>
                         </button>
-                    </div>
-                    <br>
-                    <div class="card shadow">
-                        
-                    </div>
-                </div>
+                    </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación
+            <nav aria-label="Page navigation" class="mt-3">
+                <ul class="pagination justify-content-end">
+                <li class="page-item" [class.disabled]="pageIndex === 0">
+                    <a class="page-link" (click)="prevPage()">Anterior</a>
+                </li>
+                <li
+                    class="page-item"
+                    *ngFor="let p of [].constructor(Math.ceil(totalItems / pageSize)); let i = index"
+                    [class.active]="i === pageIndex"
+                >
+                    <a class="page-link" (click)="setPage(i)">{{ i + 1 }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="(pageIndex + 1) >= Math.ceil(totalItems / pageSize)">
+                    <a class="page-link" (click)="nextPage()">Siguiente</a>
+                </li>
+                </ul>
+            </nav> -->
             </c-card-body>
+        </c-card>
         </div>
     </div>
-  </ng-template>
+    </ng-template>
   
   
 </c-card>
