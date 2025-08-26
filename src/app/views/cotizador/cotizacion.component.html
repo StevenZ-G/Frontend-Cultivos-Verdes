@@ -1,7 +1,39 @@
-<c-card class="mb-4">
-  <c-card-header>
-    Cotizacion :) 
-  </c-card-header>
-  
-  
+<div class="d-flex justify-content-between mb-4">
+  <div [class.fw-bold]="step === 1">Paso 1</div>
+  <div [class.fw-bold]="step === 2">Paso 2</div>
+  <div [class.fw-bold]="step === 3">Paso 3</div>
+</div>
+
+<c-card>
+  <c-card-body>
+    <!-- Paso 1 -->
+    <div *ngIf="step === 1">
+      <h5>Paso 1: Datos iniciales</h5>
+      <input type="text" class="form-control" placeholder="Campo de ejemplo" />
+
+      <button cButton color="primary" class="mt-3 float-end" (click)="nextStep()">Siguiente</button>
+    </div>
+
+    <!-- Paso 2 -->
+    <div *ngIf="step === 2">
+      <h5>Paso 2: Información adicional</h5>
+      <input type="text" class="form-control" placeholder="Otro campo" />
+
+      <div class="mt-3">
+        <button cButton color="secondary" (click)="prevStep()">Atrás</button>
+        <button cButton color="primary" class="float-end" (click)="nextStep()">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Paso 3 -->
+    <div *ngIf="step === 3">
+      <h5>Paso 3: Confirmación</h5>
+      <p>Revisa los datos antes de finalizar.</p>
+
+      <div class="mt-3">
+        <button cButton color="secondary" (click)="prevStep()">Atrás</button>
+        <button cButton color="success" class="float-end" (click)="finish()">Finalizar</button>
+      </div>
+    </div>
+  </c-card-body>
 </c-card>

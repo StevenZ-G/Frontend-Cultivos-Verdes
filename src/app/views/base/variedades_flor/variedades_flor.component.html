@@ -1,23 +1,159 @@
-<div class="container mt-4">
-    <h4>Flores</h4>
-    <table class="table table-bordered table-hover table-sm">
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Producto</th>
-                <th>Costo R</th>
-                <th>Costo A</th>
-                <th>Costo L</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let flor of flores; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{flor.nombre}}</td>
-                <td>{{ flor.costoR | number: '1.2-2' }}</td>
-                <td>{{ flor.costoA | number: '1.2-2' }}</td>
-                <td>{{ flor.costoL | number: '1.2-2' }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<c-card class="mb-4">
+    <div class="box--spaced" *ngIf="banderaMostrarDetalles===false else detalle">
+        <form [formGroup]="formulario" nonvalidate>
+            <c-card class="col-sm-6" style="background-color: rgba(rgb(187, 196, 195, 0.85));">
+                <c-card-header>
+                Variedades de Flor
+                </c-card-header>
+                <c-card-body>
+                    <div class="form-field">
+                        <label class="form-label">Código Flor</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-key"></i>
+                                </div>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Codigo Flor" 
+                            readonly formControlName="id_flor" name="id_flor" />
+                        </div>
+                        <div class="error-message" *ngIf="formulario.get('id_flor')?.invalid">
+                            <i class="bi bi-exclamation-circle error-icon"></i>
+                            Campo requerido
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Nombre de la Flor</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Ingrese el nombre dela caja"
+                            formControlName="nombre" name="nombre" />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Costo Regular de la Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="number" class="form-control" placeholder="Ingrese valor del costo regular"
+                            formControlName="costoR" name="costoR" />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Costo Alta de la Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="number" class="form-control" placeholder="Ingrese valor del costo alta"
+                            formControlName="costoA" name="costoA" />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Costo Local de la Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="number" class="form-control" placeholder="Ingrese valor del costo local"
+                            formControlName="costoL" name="costoL" />
+                        </div>
+                    </div>
+                    <div> <br> </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-secondary" (click)="nuevo()" matButton="elevated">Nuevo</button>
+                        <button type="button" class="btn btn-primary" *ngIf="!banderaEditar" (click)="guardar(formulario.value, formulario.valid)" matButton="elevated">Guardar</button>
+                        <button type="button" class="btn btn-outline-danger" *ngIf="banderaEditar" (click)="guardar(formulario.value, formulario.valid)" matButton="elevated">Actualizar</button>
+                        <button type="button" class="btn btn-success" matButton="elevated" *ngIf="flores.length>0" (click)="verDetalle()" >Ver Detalles</button>
+                    </div>
+                </c-card-body>
+            </c-card>
+        </form>
+    </div>
+    <ng-template #detalle>
+        <div class="row">
+            <div class="col-sm">
+                <c-card>
+                    <c-card-header>
+                    <strong>Listado de Flores</strong>
+                    </c-card-header>
+                    <c-card-body>
+                        <!-- Botón regresar -->
+                        <div class="row mb-3">
+                            <div style="width: 5px;"></div>
+                            <button
+                            type="button"
+                            class="btn btn-success btn-float"
+                            style="border-radius: 100%; display: flex; height: 45px; width: 45px; align-items: center; justify-content: center;"
+                            (click)="back()"
+                            title="Regresar"
+                            >
+                            <span class="material-symbols-outlined">
+                                ◄
+                            </span>
+                            </button>
+                        </div>
+                        <!-- Tabla -->
+                         <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                    <th (click)="toggleSort('nombre')">
+                                        Nombre
+                                        <span *ngIf="getSortIndicator('nombre')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('nombre')==='desc'">▼</span>
+                                    </th>
+                                    <th (click)="toggleSort('costoR')">
+                                        Costo Regular
+                                        <span *ngIf="getSortIndicator('costoR')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('costoR')==='desc'">▼</span>
+                                    </th>
+                                    <th (click)="toggleSort('costoA')">
+                                        Costo Alta
+                                        <span *ngIf="getSortIndicator('costoA')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('costoA')==='desc'">▼</span>
+                                    </th>
+                                    <th (click)="toggleSort('costoL')">
+                                        Costo Local
+                                        <span *ngIf="getSortIndicator('costoL')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('costoL')==='desc'">▼</span>
+                                    </th>
+                                    <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let flor of florView; trackBy: trackById">
+                                        <td>{{ flor.nombre }}</td>
+                                        <td>{{ flor.costoR }}</td>
+                                        <td>{{ flor.costoA }}</td>
+                                        <td>{{ flor.costoL }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary me-2" (click)="seleccionarGrupo(flor)">
+                                            <i class="bi bi-pencil">Editar</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                         </div>
+                    </c-card-body>
+                </c-card>
+            </div>
+        </div>
+    </ng-template>
+</c-card>

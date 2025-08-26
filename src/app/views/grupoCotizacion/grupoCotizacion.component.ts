@@ -118,9 +118,9 @@ export class GrupoCotizacionComponent implements OnInit {
 
   getSortIndicator(col: keyof GrupoCotizacionORM): 'asc' | 'desc' | null {
   return this.sortColumn === col ? this.sortDirection : null;
-}
+  }
 
-// ====== Paginación ======
+  // ====== Paginación ======
   setPage(page: number): void {
     const totalPages = Math.max(1, Math.ceil(this.totalItems / this.pageSize));
     this.pageIndex = Math.min(Math.max(0, page), totalPages - 1);

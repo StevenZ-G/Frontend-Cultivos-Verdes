@@ -1,62 +1,197 @@
-<div class="container mt-4">
-    <h4>Cajas</h4>
-    <table class="table table-bordered table-hover table-sm">
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Costo</th>
-                <th>Tallos</th>
-                <th>Volumen</th>
-                <th>Peso</th>
-                <th>Descripción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let caja of cajas; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ caja.nombre }}</td>
-                <td>
-                    <input
-                        type="number"
-                        [value]="caja.costo"
-                        step="0.01"
-                        class="form-control form-control-sm"
-                    />
-                </td>
-                <td>
-                    <input
-                        type="number"
-                        [value]="caja.tallos"
-                        step="0.01"
-                        class="form-control form-control-sm"
-                    />
-                </td>
-                <td>
-                    <input
-                        type="text"
-                        [value]="caja.volumen"
-                        step="0.01"
-                        class="form-control form-control-sm"
-                    />
-                </td>
-                <td>
-                    <input
-                        type="number"
-                        [value]="caja.peso"
-                        step="0.01"
-                        class="form-control form-control-sm"
-                    />
-                </td>
-                <td>
-                    <input
-                        type="text"
-                        [value]="caja.descripcion"
-                        step="0.01"
-                        class="form-control form-control-sm"
-                    />
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<c-card class="mb-4">
+    <div class="box--spaced" *ngIf="banderaMostrarDetalles===false else detalle">
+        <form [formGroup]="formulario" nonvalidate>
+            <c-card class="col-sm-6" style="background-color: rgba(rgb(187, 196, 195, 0.85));">
+                <c-card-header>
+                Cajas
+                </c-card-header>
+                <c-card-body>
+                    <div class="form-field">
+                        <label class="form-label">Código Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-key"></i>
+                                </div>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Codigo Caja" 
+                            readonly formControlName="id_caja" name="id_caja" />
+                        </div>
+                        <div class="error-message" *ngIf="formulario.get('id_caja')?.invalid">
+                            <i class="bi bi-exclamation-circle error-icon"></i>
+                            Campo requerido
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Nombre de la Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Ingrese el nombre dela caja"
+                            formControlName="nombre" name="nombre" />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Costo de la Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="number" class="form-control" placeholder="Ingrese valor del costo"
+                            formControlName="costo" name="costo" />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Tallos por Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="number" class="form-control" placeholder="Ingrese número de tallos"
+                            formControlName="tallos" name="tallos" />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Volumen de la Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Ingrese el volumen nxnxn"
+                            formControlName="volumen" name="volumen" />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Peso de la Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="number" class="form-control" placeholder="Ingrese el peso"
+                            formControlName="peso" name="peso" />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Descripción de la Caja</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Ingrese la descripción"
+                            formControlName="descripcion" name="descripcion" />
+                        </div>
+                    </div>
+                    <div> <br> </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-secondary" (click)="nuevo()" matButton="elevated">Nuevo</button>
+                        <button type="button" class="btn btn-primary" *ngIf="!banderaEditar" (click)="guardar(formulario.value, formulario.valid)" matButton="elevated">Guardar</button>
+                        <button type="button" class="btn btn-outline-danger" *ngIf="banderaEditar" (click)="guardar(formulario.value, formulario.valid)" matButton="elevated">Actualizar</button>
+                        <button type="button" class="btn btn-success" matButton="elevated" *ngIf="cajas.length>0" (click)="verDetalle()" >Ver Detalles</button>
+                    </div>
+                </c-card-body>
+            </c-card>
+        </form>
+    </div>
+    <ng-template #detalle>
+        <div class="row">
+            <div class="col-sm">
+                <c-card>
+                    <c-card-header>
+                    <strong>Listado de Cajas</strong>
+                    </c-card-header>
+                    <c-card-body>
+                        <!-- Botón regresar -->
+                        <div class="row mb-3">
+                            <div style="width: 5px;"></div>
+                            <button
+                            type="button"
+                            class="btn btn-success btn-float"
+                            style="border-radius: 100%; display: flex; height: 45px; width: 45px; align-items: center; justify-content: center;"
+                            (click)="back()"
+                            title="Regresar"
+                            >
+                            <span class="material-symbols-outlined">
+                                ◄
+                            </span>
+                            </button>
+                        </div>
+                        <!-- Tabla -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                    <th (click)="toggleSort('nombre')">
+                                        Nombre
+                                        <span *ngIf="getSortIndicator('nombre')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('nombre')==='desc'">▼</span>
+                                    </th>
+                                    <th (click)="toggleSort('costo')">
+                                        Costo
+                                        <span *ngIf="getSortIndicator('costo')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('costo')==='desc'">▼</span>
+                                    </th>
+                                    <th (click)="toggleSort('tallos')">
+                                        Tallos
+                                        <span *ngIf="getSortIndicator('tallos')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('tallos')==='desc'">▼</span>
+                                    </th>
+                                    <th (click)="toggleSort('volumen')">
+                                        Volumen
+                                        <span *ngIf="getSortIndicator('volumen')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('volumen')==='desc'">▼</span>
+                                    </th>
+                                    <th (click)="toggleSort('peso')">
+                                        Peso
+                                        <span *ngIf="getSortIndicator('peso')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('peso')==='desc'">▼</span>
+                                    </th>
+                                    <th (click)="toggleSort('descripcion')">
+                                        Descripción
+                                        <span *ngIf="getSortIndicator('descripcion')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('descripcion')==='desc'">▼</span>
+                                    </th>
+                                    <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let caja of cajaView; trackBy: trackById">
+                                        <td>{{ caja.nombre }}</td>
+                                        <td>{{ caja.costo }}</td>
+                                        <td>{{ caja.tallos }}</td>
+                                        <td>{{ caja.volumen }}</td>
+                                        <td>{{ caja.peso }}</td>
+                                        <td>{{ caja.descripcion }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary me-2" (click)="seleccionarGrupo(caja)">
+                                            <i class="bi bi-pencil">Editar</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </c-card-body>
+                </c-card>
+            </div>
+        </div>
+    </ng-template>
+</c-card>

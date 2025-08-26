@@ -1,29 +1,124 @@
-<div class="container mt-4">
-    <h4>Colores</h4>
-    <table class="table table-bordered table-hover table-sm mt-3">
-        <thead class="table-dark">
-            <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Código</th>
-            <!-- <th>Vista previa</th> -->
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let color of colores; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>
-                    <input type="text"
-                    class="form-control"
-                    [value]="color.nombre">
-                </td>
-                <td>
-                    <input type="color"
-                    class="form-control"
-                    [value]="color.codigo">
-                </td>
+<c-card class="mb-4">
+    <div class="box--spaced" *ngIf="banderaMostrarDetalles===false else detalle">
+        <form [formGroup]="formulario" nonvalidate>
+            <c-card class="col-sm-6" style="background-color: rgba(rgb(187, 196, 195, 0.85));">
+                <c-card-header>
+                Colores
+                </c-card-header>
+                <c-card-body>
+                    <div class="form-field">
+                        <label class="form-label">Código Color</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-key"></i>
+                                </div>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Codigo Color" 
+                            readonly formControlName="id_color" name="id_color" />
+                        </div>
+                        <div class="error-message" *ngIf="formulario.get('id_color')?.invalid">
+                            <i class="bi bi-exclamation-circle error-icon"></i>
+                            Campo requerido
+                        </div>
+                    </div>
 
-            </tr>
-        </tbody>
-    </table>
-</div>
+                    <div class="form-field">
+                        <label class="form-label">Nombre del color</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Ingrese el nombre del color"
+                            formControlName="nombre" name="nombre" />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="form-label">Codigo del color</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <div class="icon-preview">
+                                    <i class="bi bi-fonts"></i>
+                                </div>
+                            </span>
+                            <input type="color" class="form-control" placeholder="Ingrese el codigo del color"
+                            formControlName="codigo" name="codigo" />
+                        </div>
+                    </div>
+
+                    <div> <br> </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-secondary" (click)="nuevo()" matButton="elevated">Nuevo</button>
+                        <button type="button" class="btn btn-primary" *ngIf="!banderaEditar" (click)="guardar(formulario.value, formulario.valid)" matButton="elevated">Guardar</button>
+                        <button type="button" class="btn btn-outline-danger" *ngIf="banderaEditar" (click)="guardar(formulario.value, formulario.valid)" matButton="elevated">Actualizar</button>
+                        <button type="button" class="btn btn-success" matButton="elevated" *ngIf="colores.length>0" (click)="verDetalle()" >Ver Detalles</button>
+                    </div>
+                </c-card-body>
+            </c-card>
+        </form>
+    </div>
+    <ng-template #detalle>
+        <div class="row">
+            <div class="col-sm">
+                <c-card>
+                    <c-card-header>
+                    <strong>Listado de Colores</strong>
+                    </c-card-header>
+                    <c-card-body>
+                        <!-- Botón regresar -->
+                        <div class="row mb-3">
+                            <div style="width: 5px;"></div>
+                            <button
+                            type="button"
+                            class="btn btn-success btn-float"
+                            style="border-radius: 100%; display: flex; height: 45px; width: 45px; align-items: center; justify-content: center;"
+                            (click)="back()"
+                            title="Regresar"
+                            >
+                            <span class="material-symbols-outlined">
+                                ◄
+                            </span>
+                            </button>
+                        </div>
+                        <!-- Tabla -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th (click)="toggleSort('nombre')">
+                                        Nombre
+                                        <span *ngIf="getSortIndicator('nombre')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('nombre')==='desc'">▼</span>
+                                    </th>
+                                    <th (click)="toggleSort('codigo')">
+                                        Codigo
+                                        <span *ngIf="getSortIndicator('codigo')==='asc'">▲</span>
+                                        <span *ngIf="getSortIndicator('codigo')==='desc'">▼</span>
+                                    </th>
+                                    <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let color of colorView; trackBy: trackById">
+                                        <td>{{ color.nombre }}</td>
+                                        <td>
+                                            <input type="color" class="form-control form-control-sm" [value]="color.codigo" disabled>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary me-2" (click)="seleccionarGrupo(color)">
+                                            <i class="bi bi-pencil">Editar</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </c-card-body>
+                </c-card>
+            </div>
+        </div>
+    </ng-template>
+</c-card>
