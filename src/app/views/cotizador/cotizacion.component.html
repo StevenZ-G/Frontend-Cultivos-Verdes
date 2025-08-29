@@ -2,6 +2,8 @@
   <div [class.fw-bold]="step === 1">Paso 1</div>
   <div [class.fw-bold]="step === 2">Paso 2</div>
   <div [class.fw-bold]="step === 3">Paso 3</div>
+  <div [class.fw-bold]="step === 4">Paso 4</div>
+  <div [class.fw-bold]="step === 5">Paso 5</div>
 </div>
 
 <c-card>
@@ -9,15 +11,101 @@
     <!-- Paso 1 -->
     <div *ngIf="step === 1">
       <h5>Paso 1: Datos iniciales</h5>
-      <input type="text" class="form-control" placeholder="Campo de ejemplo" />
-
+      <div class="form-field">
+        <label class="form-label">Grupo Cotización</label>  
+        <select class="form-select" >
+          <option value="">Seleccione el Grupo Cotización</option>
+          <option *ngFor="let cotizacion of grupoCotizacion" [value]="cotizacion.id_grupo_cotizacion">
+            {{ cotizacion.nombre_grupo }}
+          </option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Nombre de Cotización</label>
+        <input type="text" class="form-control" placeholder="Nombre de Cotización" />
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-field">
+            <label class="form-label">Margen Operativo</label>
+            <input type="number" class="form-control" placeholder="Margen Operativo" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-field">
+            <label class="form-label">Tipo de Insumos</label>
+            <select class="form-select" >
+              <option value="">Seleccione El tipo de Insumo</option>
+              <option *ngFor="let insumo of tipoInsumos" [value]="insumo.id_tipo_insumo">
+                {{ insumo.nombre_tipo_insumo }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-field">
+            <label class="form-label">Temporada</label>
+            <select class="form-select" >
+              <option value="">Seleccione La temporada</option>
+              <option value="R">Regular</option>
+              <option value="A">Alta</option>
+              <option value="L">Local</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
       <button cButton color="primary" class="mt-3 float-end" (click)="nextStep()">Siguiente</button>
     </div>
 
     <!-- Paso 2 -->
-    <div *ngIf="step === 2">
+    <div *ngIf="step === 2" [formGroup]="cotizacionForm">
       <h5>Paso 2: Información adicional</h5>
-      <input type="text" class="form-control" placeholder="Otro campo" />
+
+      <div formArrayName="flores">
+        <div *ngFor="let florForm of floresArray.controls; let i = index" [formGroupName]="i" class="mb-4 border p-3 rounded">
+          <h6>Formulario {{ i + 1 }}</h6>
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label">Flores</label>
+              <select class="form-select" formControlName="id_flor">
+                <option value="">Seleccione la flor</option>
+                <option *ngFor="let flor of flores" [value]="flor.id_flor">
+                  {{ flor.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Color</label>
+              <select class="form-select" formControlName="id_color">
+                <option value="">Seleccione el color</option>
+                <option *ngFor="let color of colores" [value]="color.id_color">
+                  {{ color.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Número de tallos</label>
+              <input type="number" class="form-control" placeholder="Número de tallos" formControlName="tallos" />
+            </div>
+          </div>
+
+          <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" formControlName="cambiarCostoFlor" />
+            <label class="form-check-label"> Cambiar costo de la flor </label>
+          </div>
+
+          <!-- <button type="button" class="btn btn-danger btn-sm mt-2" (click)="removeFlorForm(i)" *ngIf="floresArray.length > 1">
+            Eliminar
+          </button> -->
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-success mt-2" (click)="addFlorForm()">
+        + Añadir otro
+      </button>
 
       <div class="mt-3">
         <button cButton color="secondary" (click)="prevStep()">Atrás</button>
@@ -25,8 +113,95 @@
       </div>
     </div>
 
+
     <!-- Paso 3 -->
     <div *ngIf="step === 3">
+      <h5>Paso 3: Cajas</h5>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Caja</label>
+          <select class="form-select" >
+            <option value="">Seleccione la Caja</option>
+            <option *ngFor="let caja of cajas" [value]="caja.id_caja">
+              {{ caja.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox"/>
+            <label class="form-check-label"> Cambiar costo de la Caja </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox"/>
+            <label class="form-check-label"> Cambiar número de Tallos </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Complemento</label>
+          <select class="form-select" >
+            <option value="">Seleccione un Complemento</option>
+            <option *ngFor="let complemento of complementos" [value]="complemento.costo_complemento">
+              {{ complemento.nombre_complemento }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button cButton color="secondary" (click)="prevStep()">Atrás</button>
+        <button cButton color="primary" class="float-end" (click)="nextStep()">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- Paso 4 -->
+    <div *ngIf="step === 4">
+      <h5>Paso 4: Insumos</h5>
+      <div class="row">
+        <div class="col-md-6">
+          <c-card>
+            <c-card-body>
+              <!-- Enlazamos al form principal -->
+              <form [formGroup]="cotizacionForm">
+                <div formArrayName="insumos">
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Seleccionar</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let insumo of insumosFormArray.controls; let i = index" [formGroupName]="i">
+                          <td>{{ insumo.get('nombre')?.value }}</td>
+                          <td>
+                            <input type="checkbox" formControlName="seleccionado" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </form>
+            </c-card-body>
+          </c-card>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button cButton color="secondary" (click)="prevStep()">Atrás</button>
+        <button cButton color="primary" class="float-end" (click)="nextStep()">Siguiente</button>
+      </div>
+    </div>
+    <div *ngIf="step === 5">
       <h5>Paso 3: Confirmación</h5>
       <p>Revisa los datos antes de finalizar.</p>
 

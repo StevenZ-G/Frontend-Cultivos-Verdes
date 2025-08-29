@@ -8,4 +8,5 @@ export * from './tipoInsumo'
 export * from './tipoRendimiento'
 export * from './caja'
 export * from './grupoCotizacion'
+export * from './florForm'
 // exporta otras interfaces si las tienes
